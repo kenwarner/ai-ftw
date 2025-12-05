@@ -1,5 +1,6 @@
 // Game configuration
 const MIN_TIME = 4.40; // min seconds before pressing (too early)
+const MAX_TIME = 4.67; // max seconds to press space (too late)
 
 // DOM elements
 const screens = {
@@ -41,8 +42,8 @@ function handlePlayerInput() {
     
     const currentTime = video.currentTime;
     
-    // Too early - player loses
-    if (currentTime < MIN_TIME) {
+    // Too early or too late - player loses
+    if (currentTime < MIN_TIME || currentTime > MAX_TIME) {
         gameActive = false;
         video.pause();
         showScreen('lose');
@@ -59,9 +60,18 @@ video.addEventListener('ended', () => {
     if (playerWon) {
         showScreen('pregame');
         playerWon = false;
-    } else if (gameActive) {
-        // Player never pressed - they lose
+    } else {
+        // Player never pressed in time - they lose
         gameActive = false;
+        showScreen('lose');
+    }
+});
+
+// Check if player missed the window while video is playing
+video.addEventListener('timeupdate', () => {
+    if (gameActive && video.currentTime > MAX_TIME) {
+        gameActive = false;
+        video.pause();
         showScreen('lose');
     }
 });
