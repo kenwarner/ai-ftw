@@ -42,7 +42,7 @@ function startGame() {
 
 // Check if player missed the window
 function checkMaxTime() {
-    console.log('Video time:', video.currentTime.toFixed(3), 's');
+    //console.log('Video time:', video.currentTime.toFixed(3), 's');
     
     if (!gameActive) return;
     
@@ -62,7 +62,7 @@ function handlePlayerInput() {
     if (!gameActive) return;
     
     const currentTime = video.currentTime;
-    console.log('Player pressed at:', currentTime.toFixed(3), 's');
+    //console.log('Player pressed at:', currentTime.toFixed(3), 's');
     
     // Too early or too late - player loses
     if (currentTime < MIN_TIME || currentTime > MAX_TIME) {
