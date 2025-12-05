@@ -15,6 +15,7 @@ const video = document.getElementById('game-video');
 let currentScreen = 'pregame';
 let gameActive = false;
 let playerWon = false;
+let animationFrameId = null;
 
 // Show a specific screen
 function showScreen(screenName) {
@@ -34,6 +35,26 @@ function startGame() {
     // Start video
     video.currentTime = 0;
     video.play().catch(e => console.log('Video play error:', e));
+    
+    // Start checking for MAX_TIME
+    animationFrameId = requestAnimationFrame(checkMaxTime);
+}
+
+// Check if player missed the window
+function checkMaxTime() {
+    console.log('Video time:', video.currentTime.toFixed(3), 's');
+    
+    if (!gameActive) return;
+    
+    if (video.currentTime > MAX_TIME) {
+        gameActive = false;
+        video.pause();
+        showScreen('lose');
+        return;
+    }
+    
+    // Keep checking
+    animationFrameId = requestAnimationFrame(checkMaxTime);
 }
 
 // Player pressed space - check if in the correct time window
@@ -41,10 +62,12 @@ function handlePlayerInput() {
     if (!gameActive) return;
     
     const currentTime = video.currentTime;
+    console.log('Player pressed at:', currentTime.toFixed(3), 's');
     
     // Too early or too late - player loses
     if (currentTime < MIN_TIME || currentTime > MAX_TIME) {
         gameActive = false;
+        cancelAnimationFrame(animationFrameId);
         video.pause();
         showScreen('lose');
         return;
@@ -52,26 +75,19 @@ function handlePlayerInput() {
     
     // On time - player wins, video keeps playing
     gameActive = false;
+    cancelAnimationFrame(animationFrameId);
     playerWon = true;
 }
 
 // When video ends
 video.addEventListener('ended', () => {
+    cancelAnimationFrame(animationFrameId);
     if (playerWon) {
         showScreen('pregame');
         playerWon = false;
     } else {
         // Player never pressed in time - they lose
         gameActive = false;
-        showScreen('lose');
-    }
-});
-
-// Check if player missed the window while video is playing
-video.addEventListener('timeupdate', () => {
-    if (gameActive && video.currentTime > MAX_TIME) {
-        gameActive = false;
-        video.pause();
         showScreen('lose');
     }
 });
