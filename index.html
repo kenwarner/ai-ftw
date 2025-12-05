@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Your Human Intelligence To Win</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<table width="700" cellspacing="0" cellpadding="3">
+ <tbody><tr>
+  <td>
+   <table class="bar" width="100%" cellspacing="0" cellpadding="3">
+    <tbody><tr>
+     <td>
+      &nbsp;Use Your Human Intelligence To Win
+     </td>
+    </tr>
+    <tr>
+     <td>
+      <table class="inbar" width="100%" cellspacing="0" cellpadding="6">
+       <tbody><tr>
+        <td>
+         Using your index finger, press the spacebar at the correct time.
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <!-- Pre-game Screen -->
+         <div id="pregame-screen" class="screen active">
+             <img src="ftw.jpg" alt="Press Space to Play">
+         </div>
+
+         <!-- Playing Screen -->
+         <div id="playing-screen" class="screen">
+             <video id="game-video" playsinline>
+                 <source src="ftw.mp4" type="video/mp4">
+             </video>
+         </div>
+
+         <!-- Lose Screen -->
+         <div id="lose-screen" class="screen">
+             <div class="video-container">
+                 <img src="ftw.jpg" alt="Game Over">
+                 <div class="overlay">
+                     <h2>GAME OVER</h2>
+                 </div>
+             </div>
+         </div>
+        </td>
+       </tr>
+      </tbody></table>
+     </td>
+    </tr>
+   </tbody></table>
+  </td>
+ </tr>
+</tbody></table>
+
+    <script src="game.js"></script>
+</body>
+</html>
